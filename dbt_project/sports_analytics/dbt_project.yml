@@ -1,0 +1,38 @@
+name: "sports_analytics"
+version: "1.0.0"
+config-version: 2
+
+profile: "sports_analytics"
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+vars:
+  raw_zone_bucket: "raw-zone"
+  analytics_zone_bucket: "analytics-zone"
+  minio_endpoint: "{{ env_var('S3_ENDPOINT', 'minio:9000') }}"
+
+models:
+  sports_analytics:
+    staging:
+      +materialized: view
+      +schema: staging
+    marts:
+      +materialized: table
+      +schema: marts
+      dimensions:
+        +materialized: table
+        +schema: marts
+      facts:
+        +materialized: incremental
+        +schema: marts
+        +unique_key: "event_id"
+        +on_schema_change: "append_new_columns"

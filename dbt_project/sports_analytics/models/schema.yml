@@ -1,0 +1,88 @@
+version: 2
+
+sources: []
+
+models:
+  - name: stg_thesportsdb_leagues
+    description: "Cleaned and typed view over the leagues parquet."
+    columns:
+      - name: league_id
+        description: "Primary key for leagues."
+        tests:
+          - unique
+          - not_null
+      - name: league_name
+        tests:
+          - not_null
+
+  - name: stg_thesportsdb_teams
+    description: "Cleaned and typed view over the teams parquet."
+    columns:
+      - name: team_id
+        tests:
+          - unique
+          - not_null
+      - name: team_name
+        tests:
+          - not_null
+
+  - name: stg_thesportsdb_events
+    description: "Cleaned and typed view over the events parquet."
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+      - name: event_date
+        tests:
+          - not_null
+
+  - name: dim_leagues
+    description: "League dimension."
+    columns:
+      - name: league_id
+        tests:
+          - unique
+          - not_null
+      - name: league_name
+        tests:
+          - not_null
+
+  - name: dim_teams
+    description: "Team dimension enriched with league info."
+    columns:
+      - name: team_id
+        tests:
+          - unique
+          - not_null
+      - name: team_name
+        tests:
+          - not_null
+
+  - name: dim_dates
+    description: "Date dimension generated from event dates."
+    columns:
+      - name: date_day
+        tests:
+          - unique
+          - not_null
+
+  - name: fact_matches
+    description: "Match fact table partitioned by event_date."
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+      - name: event_date
+        tests:
+          - not_null
+      - name: home_team_id
+        tests:
+          - not_null
+      - name: away_team_id
+        tests:
+          - not_null
+      - name: league_id
+        tests:
+          - not_null

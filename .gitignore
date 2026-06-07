@@ -1,0 +1,55 @@
+# Secrets & local config
+.env
+.env.local
+*.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker volumes & runtime data (NEVER commit runtime state)
+docker/minio_data/
+docker/postgres_data/
+docker/postgres_data/pgdata/
+docker/airflow_logs/
+docker/spark_warehouse/
+*.pid
+*.lock
+
+# dbt
+dbt_project/sports_analytics/logs/
+dbt_project/sports_analytics/target/
+dbt_project/sports_analytics/dbt_packages/
+dbt_project/sports_analytics/.user.yml
+
+# Spark / PySpark leftovers (kept for historical reasons)
+spark-warehouse/
+.metastore_db/
+derby.log
+
+# Data & logs
+data/
+logs/
+*.log
+
+# Internal design notes
+Documentation & guide/

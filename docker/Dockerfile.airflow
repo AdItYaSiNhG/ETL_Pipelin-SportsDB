@@ -1,0 +1,19 @@
+FROM apache/airflow:2.7.3-python3.10
+
+USER root
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        procps \
+        curl && \
+    rm -rf /var/lib/apt/lists/*
+
+USER airflow
+
+ENV AIRFLOW_HOME=/opt/airflow
+
+COPY requirements.txt /opt/airflow/requirements.txt
+
+RUN pip install --no-cache-dir --default-timeout=1000 --retries=10 -r /opt/airflow/requirements.txt
+
+ENV PYTHONPATH="/opt/airflow/scripts:${PYTHONPATH}"
